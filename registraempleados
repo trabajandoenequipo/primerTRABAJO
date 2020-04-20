@@ -1,0 +1,269 @@
+# primerTRABAJO
+primera entrega programacion
+
+
+                
+
+
+package proyecto2020primeraentregaprincipaldelogica;
+
+import java.util.Scanner;
+import proyectoprimeraentregalogica.empleado;
+import proyectoprimeraentregalogica.registra;
+
+public class principal {
+
+    public static void main(String[] args) {
+
+        Scanner dato = new Scanner(System.in);
+        
+        
+        boolean salir = false;
+        registra registroempleado= new registra(5);
+        
+        
+       
+        String nombre;
+        String apellido;
+        String direccion;
+       
+        int opcion=0;
+        int opcion1=0;
+        int cedula;
+        int celular;
+        int horas;
+        int precio=1000;
+        int sueldo = 0;
+        
+        empleado e = null;
+
+        while (!salir) {
+            System.out.println("************************");
+            System.out.println("1. REGISTRAR EMPLEADO");
+            System.out.println("2. IMPORTE TOTAL A PAGAR POR CONCEPTO DE TRABAJO");
+            System.out.println("0. SALIR");
+            System.out.println("************************");
+            System.out.print("SELECCIONE UNA DE LAS OPCIONES: ");
+            opcion = dato.nextInt();
+
+            switch (opcion) {
+                case 1:
+                    System.out.print("ESCRIBE NOMBRE: ");
+                    nombre = dato.next();                 
+                    System.out.print("INGRESE APELLIDO: ");
+                    apellido=dato.next();
+                    System.out.print("ESCRIBE CEDULA: ");
+                    cedula = dato.nextInt();
+                    System.out.print("INGRECE TELEFONO: ");
+                    celular = dato.nextInt();
+                    System.out.print("ESCRIBE DIRECCION: ");
+                    direccion=dato.next();
+                    System.out.println("************************");
+                    
+                    System.out.println("SELECCIONE CARGO DE TRABAJO: ");
+                    System.out.println("*****************************");
+                    System.out.println("OPCION: ");
+                    System.out.println("1-GERENTE");
+                    System.out.println("2-ADMINISTRATIVO");
+                    System.out.println("3-OPERARIO");
+                    System.out.println("4-BASICO");
+                    
+                    opcion1=dato.nextInt();
+                    
+                    switch(opcion1){
+                        case 1:
+                          System.out.print(" INGRESE HORAS TRABAJADAS DEL GERENTE: ");
+                          horas=dato.nextInt();
+                          sueldo=horas*precio*97/100;
+                          break;
+                            
+                        case 2:    
+                            System.out.print("INGRESE HORAS TRABAJADAS DEL ADMINISTRADOR: ");
+                            horas=dato.nextInt();
+                            sueldo=horas*precio*27/100;
+                            break;
+                            
+                        case 3:
+                            System.out.print("INGRESE HORAS TRABAJADAS DEL OPERARIO");
+                            horas=dato.nextInt();
+                            sueldo=horas*precio*38/100;
+                            break;
+                            
+                        case 4:
+                            System.out.print("INGRESE HORAS TRABAJADAS DEL BASICO");
+                            horas=dato.nextInt();
+                            sueldo=horas*precio;
+                            break;
+                            
+                    }
+          
+                    e = new empleado(nombre, apellido, cedula,celular, direccion,sueldo);
+                    
+                    registroempleado.aniadiremplea(e);
+                    break;
+                    
+                case 2:
+                    System.out.println("***********************");
+                    System.out.println("******LIQUIDACION DE EMPLEADOS*******");
+                    registroempleado.listaremplea();
+                    break;
+                    
+                case 0:
+                    salir = true;
+                    break;
+                    
+                default:
+                    System.out.println("SOLO NUMEROS ENTRE EL 0 y 4");
+
+            }
+        }
+    }
+}
+
+package proyectoprimeraentregalogica;
+
+
+public class empleado {
+    
+    private String nombre;
+    private String apellido;
+    private int cedula;
+    private int telefono;
+    private String direccion;
+    private int sueldo;
+
+    public empleado(String nombre, String apellido, int cedula, int telefono,String direccion, int sueldo) {
+        this.nombre = nombre;
+        this.apellido=apellido;
+        this.cedula = cedula;
+        this.telefono=telefono;
+        this.direccion = direccion;
+        this.sueldo=sueldo;      
+    }
+  
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    
+    public String getApellido(){
+        return apellido;
+    }
+    
+    public void setApellido(String apellido){
+        this.apellido=apellido;
+    }
+
+    public int getCedula() {
+        return cedula;
+    }
+
+    public void setCedula(int cedula) {
+        this.cedula = cedula;
+    }
+    
+    public int getTelefono(){
+        return telefono;
+    }
+    
+    public void setTelefono(int telefono){
+        this.telefono = telefono;
+    }
+    
+    public String getDireccion(){
+        return direccion;
+    }
+    
+    public void setDireccion(String direccion){
+        this.direccion=direccion;
+    }
+    
+    public boolean equals(empleado e) {
+        if (this.nombre.equalsIgnoreCase(e.getNombre())) { 
+            return true;
+        }
+        return false;
+
+    }
+
+    @Override
+    public String toString() {
+        System.out.println("****************************");
+       
+        return "\nNOMBRE: " + nombre + "\nAPELLIDO: " + apellido + "\nCEDULA: " + cedula + "\nTELEFONO: " + telefono + "\nDIRECCION: " + direccion + "\nSUELDO $"+sueldo;
+        
+    }
+}
+
+
+
+
+package proyectoprimeraentregalogica;
+
+import proyectoprimeraentregalogica.empleado;
+
+    public class registra {
+
+        private empleado[]registrado; 
+
+        public registra() {
+            this.registrado = new empleado[0];
+
+        }
+
+        public registra(int tamano) {
+            this.registrado = new empleado[tamano];
+
+        }
+
+        public void aniadiremplea(empleado e) {
+            
+
+     
+               boolean encontrado = false;
+                    for (int i = 0; i < registrado.length && !encontrado; i++) {
+                    if (registrado[i] == null) {
+                        registrado[i] = e;
+                        encontrado = true;
+                    }
+                }
+                    
+                    if (encontrado) {
+                    System.out.println("**************");
+                    System.out.println("SE HA ANADIDO");
+                } else {
+                    System.out.println("NO SE HA ANADIDO");
+                    
+                }
+            }
+     
+            public void listaremplea() {
+                for (int i = 0; i < registrado.length; i++) {
+                if (registrado[i] != null) {
+                    System.out.println(registrado[i]);
+                    
+                }
+
+                }
+            }
+       
+             public boolean registrolleno() {
+                for (int i = 0; i < registrado.length; i++) {
+                if (registrado[i] == null) {
+                    return false;
+                }
+            }
+                     return true;
+        }
+
+  
+    }
+
+             
+
+
+
+
